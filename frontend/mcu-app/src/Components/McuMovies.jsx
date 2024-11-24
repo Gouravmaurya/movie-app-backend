@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const McuMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -32,12 +33,18 @@ const McuMovies = () => {
     ? movies.filter(movie => movie.phase === selectedPhase)
     : movies;
 
-    const handleCardClick = (id) => {
-      navigate(`/movie/${id}`); // Ensure the dynamic route matches the one defined in App.js
-    };
+  const handleCardClick = (id) => {
+    navigate(`/movie/${id}`); // Ensure the dynamic route matches the one defined in App.js
+  };
+
   return (
     <div className="bg-black p-12">
-      <div className="flex justify-center items-center h-80 m-20">
+      <motion.div 
+        className="flex justify-center items-center h-80 m-20"
+        initial={{ opacity: 0, y: -50 }} // Initial state for animation
+        animate={{ opacity: 1, y: 0 }} // Animate to this state
+        transition={{ duration: 0.5 }} // Duration of the animation
+      >
         <div className="w-1/2 h-full m-8 flex">
           <img
             className="w-full h-full"
@@ -45,7 +52,7 @@ const McuMovies = () => {
             alt="Marvel Cinematic Universe Logo"
           />
         </div>
-      </div>
+      </motion.div>
 
       <div className="mb-8 flex justify-center flex-wrap">
         {phases.map(phase => (
@@ -65,10 +72,13 @@ const McuMovies = () => {
       <div className="flex flex-wrap justify-center gap-6">
         {filteredMovies.length > 0 ? (
           filteredMovies.map((movie) => (
-            <div
+            <motion.div
               key={movie.id}
               className="max-w w-60 rounded-md overflow-hidden shadow-lg bg-zinc-800 text-white hover:bg-zinc-700 hover:text-gray-400 hover:scale-105 transition-transform ease-linear"
               onClick={() => handleCardClick(movie.id)} // Handle card click
+              initial={{ opacity: 0, scale: 0.8 }} // Initial state for animation
+              animate={{ opacity: 1, scale: 1 }} // Animate to this state
+              transition={{ duration: 0.3 }} // Duration of the animation
             >
               <img
                 src={movie.cover_url}
@@ -86,7 +96,7 @@ const McuMovies = () => {
                   Phase: {movie.phase}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))
         ) : (
           <p className="text-white">Loading...</p>

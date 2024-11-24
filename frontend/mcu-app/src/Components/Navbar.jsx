@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import Framer Motion for animations
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,16 +31,29 @@ const Navbar = () => {
   };
 
   return (
-    <nav className=" absolute z-50 w-screen flex justify-between items-center p-4 bg-transparent text-white">
+    <motion.nav 
+      className="absolute z-50 w-screen flex justify-between items-center p-4 bg-transparent text-white"
+      initial={{ opacity: 0, y: -50 }} // Initial state for animation
+      animate={{ opacity: 1, y: 0 }} // Animate to this state
+      transition={{ duration: 0.5 }} // Duration of the animation
+    >
       {/* First part - Marvel text */}
       <div className="text-3xl font-bold flex items-center">
-    <span className="text-red-600">Marvel</span>
-    <span className="text-gray-300"> Universe</span>
-  </div>
+        <span className="text-red-600">Marvel</span>
+        <span className="text-gray-300"> Universe</span>
+      </div>
 
       {/* Second part - Login button or Username */}
+      <motion.button 
+        onClick={handleLoginLogout}
+        className="px-4 py-2 rounded-md bg-red-600 text-white transition-transform hover:scale-105"
+        whileHover={{ scale: 1.1 }} // Scale effect on hover
+        transition={{ duration: 0.3 }} // Duration of the hover effect
+      >
+        {isLoggedIn ? userName : "Login"}
+      </motion.button>
       
-    </nav>
+    </motion.nav>
   );
 };
 
